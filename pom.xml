@@ -19,6 +19,18 @@
             <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
     </licenses>
+         <!-- List the core committers -->
+    <developers>
+      <developer>
+        <id>sukhjinder.singh</id>
+        <name>Sukhjinder Singh</name>
+        <organization>smartData Inc</organization>
+        <roles>
+          <role>developer</role>
+        </roles>
+      
+      </developer>
+      </developers>
 
     <dependencies>
         <!-- Excel Library -->
