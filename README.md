@@ -68,3 +68,16 @@ public void employeeTest(){
 ```
 
 > **Default date time format is dd-MM-yyyy** 
+
+# One another way to use it
+```java
+              Exl exl = new Exl();
+              exl.openWorkbook(path);
+              Recordset recordset =exl.getRecords("Employee");
+              exl.closeWorkbook();
+              List<Recordset.Record> records = recordset.getRecords();
+              for(Recordset.Record record:records){
+                  System.out.println(record.getValue("Name"));
+              }
+```
+# Thanks for coming here!
