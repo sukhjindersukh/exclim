@@ -15,8 +15,7 @@ This is excel slim library to read excel sheet as java pojo.
 ## Now read all data in java
 2. Create a simple java class with exactly same name of your sheet in our case **Employee**
 
-  ```
-```java
+  ```java
       public class Employee {  
           String Name,   DOB;  
       
@@ -69,16 +68,3 @@ public void employeeTest(){
 ```
 
 > **Default date time format is dd-MM-yyyy** 
-
-
-## Slim picture
-
- 
-
-```mermaid
-sequenceDiagram
-Excel ->> Exclim: Data 
-Exclim->>Employee: I will parse data as you
-Test->>Employee: I need employee data
-```
-
