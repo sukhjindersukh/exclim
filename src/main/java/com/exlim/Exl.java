@@ -2,6 +2,7 @@ package com.exlim;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
@@ -22,27 +23,44 @@ public class Exl {
     /**
      * <h1>Set date time form of your choice.</h1>
      * <p>Default: dd-MM-yyy</p>
+     *
      * @param dateDataFormat
      */
     public void setDateDataFormat(String dateDataFormat) {
         this.dateDataFormat = dateDataFormat;
     }
 
+    /**
+     * <h1>Open workbook for further interactions</h1>
+     *
+     * @param filePath
+     */
     public void openWorkbook(String filePath) {
         try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
             workbook = WorkbookFactory.create(fileInputStream);
         } catch (Throwable ex) {
-            logger.log(Level.SEVERE,ex.getMessage());
+            logger.log(Level.SEVERE, ex.getMessage());
             ex.printStackTrace();
         }
     }
 
+    /**
+     * <h1>Close current opened workbook</h1>
+     */
     public void closeWorkbook() throws IOException {
         if (this.workbook != null) {
             this.workbook.close();
         }
     }
 
+    /**
+     * <h1>Open excel sheet </h1>
+     * <p>This method will open and return excel sheet</p>
+     *
+     * @param strSheet
+     * @return
+     * @throws Exception
+     */
     Sheet getSheet(String strSheet) throws Exception {
         if (workbook != null) {
             this.sheet = workbook.getSheet(strSheet);
@@ -52,11 +70,11 @@ public class Exl {
             } else {
                 StringBuilder builder = new StringBuilder();
                 workbook.sheetIterator().forEachRemaining(sh ->
-                        builder.append(sh.getSheetName()+", ")
+                        builder.append(sh.getSheetName() + ", ")
                 );
-                builder.replace(builder.length()-2,builder.length(),"");
-                logger.info("Available sheet(s): " +builder.toString());
-                logger.log(Level.SEVERE,String.format("Sheet '%s' not found. Please check name of sheet",strSheet));
+                builder.replace(builder.length() - 2, builder.length(), "");
+                logger.info("Available sheet(s): " + builder.toString());
+                logger.log(Level.SEVERE, String.format("Sheet '%s' not found. Please check name of sheet", strSheet));
                 throw new Exception("Given sheet not found: " + strSheet);
             }
         } else {
@@ -64,6 +82,12 @@ public class Exl {
         }
     }
 
+    /**
+     * <h1>Get all rows from current opened sheet</h1>
+     * <p>This method will return all the available rows in current sheet.</p>
+     *
+     * @return List<Row>
+     */
     public List<Row> getRowsFromSheet() {
         List<Row> rows = new ArrayList<>();
         int firstRow = sheet.getFirstRowNum();
@@ -74,14 +98,20 @@ public class Exl {
         return rows;
     }
 
+    /**
+     * <h1>Get all the values as List<String> from given Row object</h1>
+     *
+     * @param row type of Row
+     * @return
+     */
     public List<String> getCellsValues(Row row) {
         List<String> cellValues = new ArrayList<>();
         row.cellIterator().forEachRemaining(cell -> {
             switch (cell.getCellType()) {
                 case NUMERIC:
                     if (DateUtil.isCellDateFormatted(cell)) {
-                        if (this.dateDataFormat==null){
-                            this.dateDataFormat="dd-MM-yyyy";
+                        if (this.dateDataFormat == null) {
+                            this.dateDataFormat = "dd-MM-yyyy";
                         }
                         Date date = DateUtil.getJavaDate(cell.getNumericCellValue());
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(this.dateDataFormat);
@@ -100,7 +130,6 @@ public class Exl {
                 case BOOLEAN:
                     cellValues.add(Boolean.toString(cell.getBooleanCellValue()));
                     break;
-
                 default:
                     cellValues.add(cell.getStringCellValue());
             }
@@ -108,6 +137,29 @@ public class Exl {
         return cellValues;
     }
 
+    /**
+     * <h>Get all the records from given sheet name</h>
+     * <p>This method will return Recordset object that contains all the rows as records.
+     * <p><b>Example</b></p>
+     * <pre>
+     * {@code
+     *         Exl exl = new Exl();
+     *         exl.openWorkbook(path);
+     *         Recordset recordset =exl.getRecords("Employee");
+     *         exl.closeWorkbook();
+     *         List<Recordset.Record> records = recordset.getRecords();
+     *         for(Recordset.Record record:records){
+     *             System.out.println(record.getValue("Name"));
+     *         }
+     * }
+     * </pre>
+     *
+     * <p>Note: This method will not close workbook automatically. Please call closeWorkbook() method</p>
+     *
+     * @param strSheet
+     * @return Recordset
+     * @throws Exception
+     */
     public Recordset getRecords(String strSheet) throws Exception {
         getSheet(strSheet);
         Recordset recordset = new Recordset();
@@ -136,10 +188,29 @@ public class Exl {
             //Now add current record object to Recordset object
             recordset.setRecord(record);
         }
-        logger.info("Total number of rows including header # " +rows.size());
+        logger.info("Total number of rows including header # " + rows.size());
         return recordset;
     }
 
+    /**
+     * <h1>Read excel sheet with exactly same name as java pojo class</h1>
+     * <p><b>Example</b></p>
+     * <pre>
+     *  {@code
+     *         Exl exl = new Exl();
+     *         String path = "src/test/resources/Data.xlsx";
+     *         List<Employee> employees = exl.read(Employee.class, path);
+     *         for (Employee employee : employees) {
+     *             System.out.println(employee.toString());
+     *         }
+     *  }
+     *       </pre>
+     *
+     * @param tClass Pass your java pojo class like in example Employee
+     * @param filePath
+     * @param
+     * @return It will return List of your java pojo in our example Employee
+     */
     public <T> List<T> read(Class<T> tClass, String filePath) {
         final List<T> recordsAsClass = new ArrayList<T>();
 
@@ -177,7 +248,7 @@ public class Exl {
         return recordsAsClass;
     }
 
-    private  <T> Map<String, Field> getClassVariableNames(Class<T> tClass, Recordset records) throws NoSuchFieldException {
+    private <T> Map<String, Field> getClassVariableNames(Class<T> tClass, Recordset records) throws NoSuchFieldException {
         Set<String> variableNames = new HashSet<>();
         //System.out.println("------------Column names are-------------");
         for (Field field : tClass.getDeclaredFields()) {

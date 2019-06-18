@@ -12,6 +12,7 @@ public class EmployeeModelTest {
     @Test
     public void employeeTest() throws Exception {
         Exl exl = new Exl();
+        //If you want to change date format
         exl.setDateDataFormat("MM-dd-yyy");
         String path = "src/test/resources/TestData.xlsx";
         List<Employee> employees = exl.read(Employee.class, path);
@@ -21,12 +22,14 @@ public class EmployeeModelTest {
         Assert.assertTrue(employees.size()>0);
 
         //Other way
+        //Exl exl = new Exl();
         exl.openWorkbook(path);
         Recordset recordset =exl.getRecords("Employee");
         exl.closeWorkbook();
-        recordset.getRecords();
-
-//
+        List<Recordset.Record> records = recordset.getRecords();
+        for(Recordset.Record record:records){
+            System.out.println(record.getValue("Name"));
+        }
 
 
     }

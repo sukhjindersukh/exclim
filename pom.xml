@@ -11,7 +11,7 @@
 
     <name>Exlim</name>
     <description>This tool will help to convert excel sheet to java pojo.</description>
-    <url>https://github.com/sukhjindersukh/exclim</url>     
+    <url>https://github.com/sukhjindersukh/exclim</url>
 
     <licenses>
         <license>
@@ -19,18 +19,17 @@
             <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
     </licenses>
-         <!-- List the core committers -->
+    <!-- List the core committers -->
     <developers>
-      <developer>
-        <id>sukhjinder.singh</id>
-        <name>Sukhjinder Singh</name>
-        <organization>smartData Inc</organization>
-        <roles>
-          <role>developer</role>
-        </roles>
-      
-      </developer>
-      </developers>
+        <developer>
+            <id>sukhjinder.singh</id>
+            <name>Sukhjinder Singh</name>
+            <organization>smartData Inc</organization>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
 
     <dependencies>
         <!-- Excel Library -->
