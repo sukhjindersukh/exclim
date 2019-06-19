@@ -114,7 +114,7 @@ public class Exl {
                             this.dateDataFormat = "dd-MM-yyyy";
                         }
                         Date date = DateUtil.getJavaDate(cell.getNumericCellValue());
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(this.dateDataFormat);
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(this.dateDataFormat.replaceAll("mm","MM"));
                         LocalDateTime ldt = LocalDateTime.ofInstant(date.toInstant(),
                                 ZoneId.systemDefault());
                         cellValues.add(ldt.format(formatter));
