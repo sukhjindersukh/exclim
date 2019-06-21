@@ -24,7 +24,7 @@ public class Exl {
      * <h1>Set date time form of your choice.</h1>
      * <p>Default: dd-MM-yyy</p>
      *
-     * @param dateDataFormat
+     * @param dateDataFormat Pass date time format line dd-MM-yyyy
      */
     public void setDateDataFormat(String dateDataFormat) {
         this.dateDataFormat = dateDataFormat;
@@ -33,7 +33,7 @@ public class Exl {
     /**
      * <h1>Open workbook for further interactions</h1>
      *
-     * @param filePath
+     * @param filePath Pass full file path
      */
     public void openWorkbook(String filePath) {
         try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
@@ -47,9 +47,13 @@ public class Exl {
     /**
      * <h1>Close current opened workbook</h1>
      */
-    public void closeWorkbook() throws IOException {
-        if (this.workbook != null) {
-            this.workbook.close();
+    public void closeWorkbook(){
+        try {
+            if (this.workbook != null) {
+                this.workbook.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -57,9 +61,9 @@ public class Exl {
      * <h1>Open excel sheet </h1>
      * <p>This method will open and return excel sheet</p>
      *
-     * @param strSheet
+     * @param strSheet Pass sheet name
      * @return
-     * @throws Exception
+     * @throws Exception If sheet not found it will throw error
      */
     Sheet getSheet(String strSheet) throws Exception {
         if (workbook != null) {
@@ -86,7 +90,7 @@ public class Exl {
      * <h1>Get all rows from current opened sheet</h1>
      * <p>This method will return all the available rows in current sheet.</p>
      *
-     * @return List<Row>
+     * @return ArrayList It will return List of Row
      */
     public List<Row> getRowsFromSheet() {
         List<Row> rows = new ArrayList<>();
@@ -101,8 +105,8 @@ public class Exl {
     /**
      * <h1>Get all the values as List<String> from given Row object</h1>
      *
-     * @param row type of Row
-     * @return
+     * @param row Pass Row to get cells values as List of String
+     * @return List It will return List of String
      */
     public List<String> getCellsValues(Row row) {
         List<String> cellValues = new ArrayList<>();
@@ -156,8 +160,8 @@ public class Exl {
      *
      * <p>Note: This method will not close workbook automatically. Please call closeWorkbook() method</p>
      *
-     * @param strSheet
-     * @return Recordset
+     * @param strSheet Pass sheet name to get Records
+     * @return  Recordset Return Recordset object that contains all records and can be accessed using loop on all records and then getValue using column name
      * @throws Exception
      */
     public Recordset getRecords(String strSheet) throws Exception {
@@ -238,11 +242,7 @@ public class Exl {
         } catch (Throwable e) {
             e.printStackTrace();
         } finally {
-            try {
-                closeWorkbook();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            closeWorkbook();
         }
 
         return recordsAsClass;
