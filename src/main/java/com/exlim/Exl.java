@@ -103,7 +103,7 @@ public class Exl {
     }
 
     /**
-     * <h1>Get all the values as List<String> from given Row object</h1>
+     * <h1>Get all the values as List of String from given Row object</h1>
      *
      * @param row Pass Row to get cells values as List of String
      * @return List It will return List of String
@@ -142,7 +142,7 @@ public class Exl {
     }
 
     /**
-     * <h>Get all the records from given sheet name</h>
+     * <h1>Get all the records from given sheet name</h1>
      * <p>This method will return Recordset object that contains all the rows as records.
      * <p><b>Example</b></p>
      * <pre>
@@ -162,7 +162,7 @@ public class Exl {
      *
      * @param strSheet Pass sheet name to get Records
      * @return  Recordset Return Recordset object that contains all records and can be accessed using loop on all records and then getValue using column name
-     * @throws Exception
+     * @throws Exception - Error will be thrown on failed to get records
      */
     public Recordset getRecords(String strSheet) throws Exception {
         getSheet(strSheet);
@@ -211,8 +211,7 @@ public class Exl {
      *       </pre>
      *
      * @param tClass Pass your java pojo class like in example Employee
-     * @param filePath
-     * @param
+     * @param filePath Pass file path
      * @return It will return List of your java pojo in our example Employee
      */
     public <T> List<T> read(Class<T> tClass, String filePath) {
@@ -248,6 +247,14 @@ public class Exl {
         return recordsAsClass;
     }
 
+    /**
+     * <h1>Get variables name from given class</h1>
+     * @param tClass  Pass any java class that you have created for mapping with excel sheet
+     * @param records  Pass Recordset as sencond parameter
+     * @param <T>  Java class pojo
+     * @return This will return map of header and variable name
+     * @throws NoSuchFieldException Errors will be thrown
+     */
     private <T> Map<String, Field> getClassVariableNames(Class<T> tClass, Recordset records) throws NoSuchFieldException {
         Set<String> variableNames = new HashSet<>();
         //System.out.println("------------Column names are-------------");

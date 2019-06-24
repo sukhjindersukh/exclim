@@ -6,7 +6,7 @@
 
     <groupId>com.github.sukhjindersukh</groupId>
     <artifactId>Exlim</artifactId>
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Exlim</name>
@@ -28,10 +28,9 @@
 
     <developers>
         <developer>
-            <id>sukhjinder.singh</id>
+            <id>mrsukhjindersukh</id>
             <name>Sukhjinder Singh</name>
             <url>https://github.com/sukhjindersukh/exclim</url>
-            <organization>smartData Inc</organization>
             <roles>
                 <role>developer</role>
             </roles>
@@ -81,6 +80,9 @@
         <version.maven-jxr-plugin>2.5</version.maven-jxr-plugin>
         <version.maven-gpg-plugin>1.6</version.maven-gpg-plugin>
         <version.maven-deploy-plugin>2.8.2</version.maven-deploy-plugin>
+
+        <version.velocity>1.7</version.velocity>
+
 
 
     </properties>
@@ -225,6 +227,7 @@
                 </executions>
             </plugin>
 
+            <!--org.sonatype.plugins-->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -236,6 +239,8 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
+
+            <!--maven-release-plugin-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -254,7 +259,145 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${version.jacoco-maven-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <!-- implementation is needed only for Maven 2 -->
+                                <rule implementation="org.jacoco.maven.RuleConfiguration">
+                                    <element>BUNDLE</element>
+                                    <limits>
+                                        <!-- implementation is needed only for Maven 2 -->
+                                        <limit implementation="org.jacoco.report.check.Limit">
+                                            <counter>COMPLEXITY</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.60</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>${version.coveralls-maven-plugin}</version>
+            </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${version.maven-site-plugin}</version>
+                <configuration>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>${version.maven-javadoc-plugin}</version>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-jxr-plugin</artifactId>
+                            <version>${version.maven-jxr-plugin}</version>
+                            <configuration>
+                                <aggregate>true</aggregate>
+                            </configuration>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-report-plugin</artifactId>
+                            <version>${version.maven-surefire-report-plugin}</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>cobertura-maven-plugin</artifactId>
+                            <version>${version.cobertura-maven-plugin}</version>
+                            <configuration>
+                                <formats>
+                                    <format>xml</format>
+                                    <format>html</format>
+                                </formats>
+                            </configuration>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-checkstyle-plugin</artifactId>
+                            <version>${version.maven-checkstyle-plugin}</version>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-project-info-reports-plugin</artifactId>
+                            <version>${version.maven-project-info-reports-plugin}</version>
+                            <configuration>
+                                <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                            </configuration>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>taglist-maven-plugin</artifactId>
+                            <version>${version.taglist-maven-plugin}</version>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-changelog-plugin</artifactId>
+                            <version>${version.maven-changelog-plugin}</version>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>findbugs-maven-plugin</artifactId>
+                            <version>${version.findbugs-maven-plugin}</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-pmd-plugin</artifactId>
+                            <version>${version.maven-pmd-plugin}</version>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>lt.velykis.maven.skins</groupId>
+                        <artifactId>reflow-velocity-tools</artifactId>
+                        <version>${version.reflow-velocity-tools}</version>
+                    </dependency>
+                    <!-- Reflow skin requires Velocity >= 1.7 -->
+                    <dependency>
+                        <groupId>org.apache.velocity</groupId>
+                        <artifactId>velocity</artifactId>
+                        <version>${version.velocity}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
 
         </plugins>
     </build>
