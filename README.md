@@ -80,4 +80,8 @@ public void employeeTest(){
                   System.out.println(record.getValue("Name"));
               }
 ```
+
+# Generate your jar!
+>mvn clean package
+
 # Thanks for coming here!
