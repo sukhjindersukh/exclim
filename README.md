@@ -1,6 +1,14 @@
 # Welcome to exclim!
 This is excel slim library to read excel sheet as java pojo.
 
+# Add dependency for your project
+```xml
+<dependency>
+  <groupId>com.github.sukhjindersukh</groupId>
+  <artifactId>Exlim</artifactId>
+  <version>1.1</version>
+</dependency>
+```
 
 # How to use it
 1. Create a Excel sheet let say **Employee** with fields   
