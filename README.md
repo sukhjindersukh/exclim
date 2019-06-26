@@ -1,5 +1,5 @@
 # Welcome to exclim!
-This is excel slim library to read excel sheet as java pojo.
+This is excel slim library to read excel sheet as Java POJO(Plain Old Java Object).
 
 # Add dependency for your project
 ```xml
@@ -52,7 +52,7 @@ This is excel slim library to read excel sheet as java pojo.
         }  
     }
 ```
-### If you dont want to use getter setter you can use project lombok dependency to reduce your getter setter and toString code.
+### If you dont want to use getter setter you can use [project lombok](https://projectlombok.org) dependency to reduce your getter setter and toString code.
 ```xml
  <dependency>
             <groupId>org.projectlombok</groupId>
