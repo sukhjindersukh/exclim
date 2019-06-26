@@ -52,6 +52,23 @@ This is excel slim library to read excel sheet as java pojo.
         }  
     }
 ```
+### If you dont want to use getter setter you can use project lombok dependency to reduce your getter setter and toString code.
+```xml
+ <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
+        </dependency>
+```
+### Aftre addition of library write your java POJO(Plain Old Java Object) just use annotation @Data thats it. You are ready to use 
+ ```java
+      @Data
+      public class Employee {  
+          String Name,   DOB;  
+     }
+```
+
 
 
 3. Create another java class with  to test our **Employee**  class is working or not
