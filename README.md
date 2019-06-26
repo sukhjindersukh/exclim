@@ -54,7 +54,7 @@ This is excel slim library to read excel sheet as Java POJO(Plain Old Java Objec
 ```
 ### If you dont want to use getter setter you can use [project lombok](https://projectlombok.org) dependency to reduce your getter setter and toString code.
 ```xml
- <dependency>
+       <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.8</version>
