@@ -25,7 +25,7 @@ This is excel slim library to read excel sheet as Java POJO(Plain Old Java Objec
 
   ```java
       public class Employee {  
-          String Name,   DOB;  
+          String Name, DOB;  
       
         public String getName() {  
             return Name;  
@@ -65,7 +65,7 @@ This is excel slim library to read excel sheet as Java POJO(Plain Old Java Objec
  ```java
       @Data
       public class Employee {  
-          String Name,   DOB;  
+          String Name, DOB;  
      }
 ```
 
